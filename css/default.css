@@ -20,7 +20,7 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: #677077;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 li {
@@ -64,7 +64,7 @@ li a:hover {
 }
 
 #footer {
-    background-color: #b5b5b7;
+    background-color: #677077;
     color:white;
     clear:both;
     text-align:center;
