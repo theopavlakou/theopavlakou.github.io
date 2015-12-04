@@ -69,6 +69,11 @@ li a:hover {
     text-decoration: none !important;
 }
 
+#section a:hover{   
+    color: #b5b5b7;
+    text-decoration: none !important;
+}
+
 #footer {
     background-color: #677077;
     color:white;
