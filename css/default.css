@@ -13,9 +13,9 @@
     padding-bottom: 1px;
 }
 
-ul {  
+ul {
     list-style-type: none;
-    margin: 0;    
+    margin: 0;
     /*margin-top: 3px;*/
     padding: 0;
     overflow: hidden;
@@ -24,16 +24,24 @@ ul {
 }
 
 li {
+    display: inline;
     float: left;
-    margin: 1px;
+    padding: 10px 15px;
+    /*margin: 1px;*/
+}
+
+ul#vertical li {
+  color: #aa0000;
+  display: inline;
+  float: left;
+  text-decoration: none;
+  width: 100%;
 }
 
 li a {
-    display: block;
-    color: #252839;    
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none    
+    display: inline-grid;
+    color: #252839;
+    text-decoration: none
 }
 
 li a:hover {
@@ -45,7 +53,7 @@ li a:hover {
 .active {
     /*background-color: #f2b632;*/
     /*border-radius: 7px;        */
-    color: #f2b632;    
+    color: #f2b632;
 }
 
 #page-wrap {
@@ -61,15 +69,15 @@ li a:hover {
     margin-top: 0px;
     margin-bottom: 0px;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
 }
 
-#section a{   
+#section a{
     color: #64706c;
     text-decoration: none !important;
 }
 
-#section a:hover{   
+#section a:hover{
     color: #b5b5b7;
     text-decoration: none !important;
 }
@@ -88,10 +96,10 @@ li a:hover {
     width: 25%;
     min-width: 150px;
     float: left;
-    padding-top: 1%;        
-    padding-bottom: 1%;    
+    padding-top: 1%;
+    padding-bottom: 1%;
     padding-left: 10px;
-    
+
 }
 
 .image {
@@ -101,7 +109,7 @@ li a:hover {
 }
 
 .col-fill {
-    padding-top: 1%;    
+    padding-top: 1%;
     padding-bottom: 1%;
     padding-left: 10px;
     overflow: hidden;
@@ -109,34 +117,43 @@ li a:hover {
 
 .col-thirty {
     width: 30%;
-    padding-top: 1%;    
+    padding-top: 1%;
     padding-bottom: 1%;
     padding-left: 15px;
-    float: left;    
+    float: left;
 }
 
 .col-fifty{
     width: 47%;
-    padding-top: 1%;    
+    padding-top: 1%;
     padding-bottom: 1%;
     padding-left: 15px;
-    float: left;    
+    float: left;
 }
 
 .col-one-hundred {
     width: 97%;
-    padding-top: 1%;    
+    padding-top: 1%;
     padding-bottom: 1%;
     padding-left: 15px;
-    float: left;    
+    float: left;
 }
 
 #big-text {
     font-size: 18px;
 }
 
+#bigger-text {
+    font-size: 24px;
+}
+
 h3 {
-    padding: 0px;
+    padding-bottom: 5px;
+    margin: 0px;
+}
+
+h2 {
+    padding-bottom: 5px;
     margin: 0px;
 }
 
