@@ -5,6 +5,9 @@
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Signika:400,600' rel='stylesheet' type='text/css'>
 	<link href="../css/default.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
 </head>
 
 <body>
@@ -20,10 +23,132 @@
 		</ul>
 
 		<div id="section">
+
       <div class="col-fill" id="big-text">
-        <h2> Density Estimation </h2>
-        First
+        <h2> Unsupervised Learning and Density Estimation </h2>
+        Before introducing and explaining density estimation, I would like to
+        focus a bit on supervised learning because I will use it to explain the
+        difference between it and unsupervised methods like density estimation.
+      </div>
+
+      <div class="col-fill" id="big-text">
+        <h3> Supervised Learning</h3>
+
+        In supervised learning, the general setup is that we have some data in
+        some \(D\) dimensional space e.g. \(x \in \mathbb{R}^D\) and we want to
+        make a model that can make predictions for some target variable
+        \(y \in \mathbb{R}^M\), where \(M << D\) typically.
+        We call it supervised learning when our data set consists, both of the
+        inputs and of the outputs i.e. we have some dataset
+        \(\mathcal{D} = \{(x^{(n)}, y^{(n)})\}_{n=1}^N\), where \(N\) is the
+        number of data points in our data set.
+        One way to do supervised learning
+        is to model \(p(y|x, \theta)\) with some parametric model that takes as
+        parameters \(\theta\)and then to fit the parameters of the model to
+        minimise a cost function.
+        Both Maximum likelihood (ML) and Maximum a posteriori (MAP)
+        estimation can be formulated in this way.
 			</div>
+      <div class="col-fill" id="big-text">
+        Let us illustrate this by deriving the cost function for ML for some
+        general supervised learning task. Again, we suppose we have the dataset
+        \(\mathcal{D}\) defined above. We assume that each point has been drawn
+        from the identical distribution that every other point has been sampled
+        from but independently from any other data point (known as i.i.d.). In
+        ML learning, we seek to maximise the likelihood of the data. That is,
+        the probability of the data given the parameters or
+        \(p(\mathcal{D}|\theta)\). Because the data is i.i.d. we can write this
+        as
+
+        $$
+        \begin{align}
+        p(\mathcal{D}|\theta)
+                  &= \prod_{n=1}^N p(x^{(n)}, y^{(n)}|\theta)\\
+                  &= \prod_{n=1}^N p(y^{(n)}|x^{(n)}, \theta) p(x^{(n)}|\theta).
+        \end{align}
+        $$
+
+        Now since we only care about modelling \(p(y^{(n)}|x^{(n)}, \theta)\),
+        we don't really need to care about modelling \(p(x^{(n)}|\theta)\) i.e.
+        we don't care how the input data is distributed, we only care about
+        how the output data is distributed <em>given the input data</em>.
+        Therefore, we can say that \(p(x^{(n)}|\theta) = p(x^{(n)})\). This means
+        that
+
+        $$
+        \begin{align}
+        p(\mathcal{D}|\theta) &\propto \prod_{n=1}^N p(y^{(n)}|x^{(n)}, \theta)
+        = l(\theta).
+        \end{align}
+        $$
+
+        This is equivalent to maximising the log probability because log is a
+        strictly monotonically increasing function, so the parameters that make
+        the log of the likelihood maximise, are also the parameters that make
+        the likelihood maximise. So, by taking logs we get
+
+        $$
+        \begin{align}
+        L(\theta) &= \sum_{n=1}^N \log p(y^{(n)}|x^{(n)}, \theta)
+        \end{align}
+        $$
+        and by making different modelling assumptions for the parametric family
+        of distributions that p(y^{(n)}|x^{(n)}, \theta) is modelled by, we get
+        different well known supervised models (e.g. logistic regression,
+        linear regression, neural networks, etc.).
+
+      </div>
+      <div class="col-fill" id="big-text">
+        <h3> Density Estimation</h3>
+        In unsupervised learning, we generally do not have a split in the data
+        into some \(x^{(n)}, y^{(n)}\), so we care about modelling the data set
+        as a whole. We look for interesting patterns in the data or seek to
+        find models that explain the data well and are interpretable. Density
+        estimation is an unsupervised learning task, in which the goal is to
+        model the probability density (or distribution for discrete data) over
+        our <em>input</em> i.e. \(p(x)\) for some \(x \in
+        \mathbb{R}^D\).
+      </div>
+
+      <div class="col-fill" id="big-text">
+        This can be a really difficult task, especially when
+        \(D\) is large, because of the <em>curse of dimensionality</em>. The
+        curse of dimensionality basically states that as the dimensionality of
+        the space increases, the amount of data needed to get a good idea of
+        how the data is distributed in the space grows exponentially, which is
+        really sad because, though we are in the <em>big data</em> era, for most
+        data sets of interest (images, audio, etc.) the sizes of the datasets
+        are still too small to accurately get a tractable model for their
+        densities.
+			</div>
+
+      <div class="col-fill" id="big-text">
+        Another reason this can be tough is because each parametric model that
+        is chosen to model a probability density has its own <em>inductive
+        bias</em>. The inductive bias of a model is the set of assumptions the
+        model inherently makes, which make it hard for it to model data that
+        does not satisfy the assumptions it makes. For example, imagine trying
+        to model a uniform distribution with a Gaussian by fitting the mean
+        and variance. This would always be a bad fit. For one, the Gaussian has
+        an infinite support (the interval for which the distribution is
+        non-zero), whereas the uniform distribution has a finite support. Also,
+        the Gaussian has a single mode and decays square-exponentially away
+        from it, whereas the uniform distribution takes one value everywhere.
+        And there are plenty of other reasons as well. So, to model data for
+        which we do not know what assumptions are true about it, we need to have
+        models that are flexible enough that they don't make very stringent
+        assumptions. One common assumption made by many models is that the
+        density is <em>smooth</em> everywhere i.e. the gradient at any point
+        has some maximum magnitude.
+			</div>
+
+      <div class="col-fill" id="big-text">
+        Another reason it is a difficult task is because it is required that the
+        model gives a valid density i.e. it must integrate to one and it must
+        be non-negative everywhere.
+      </div>
+
+      <!-- Mention MoGs, NADE and your own research -->
 
 		</div>
 
