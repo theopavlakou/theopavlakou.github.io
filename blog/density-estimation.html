@@ -133,15 +133,24 @@
         an infinite support (the interval for which the distribution is
         non-zero), whereas the uniform distribution has a finite support. Also,
         the Gaussian has a single mode and decays square-exponentially away
-        from it, whereas the uniform distribution takes one value everywhere.
-        And there are plenty of other reasons as well. So, to model data for
-        which we do not know what assumptions are true about it, we need to have
+        from it, whereas the uniform distribution takes two distinct values:
+				0 and 1. The image below illustrates this. The Gaussian was fit by
+				minimising the KL divergence (I'll probably do another post on this at
+				some point). So, to model data for
+        which we do not know what assumptions are true for it, we need to have
         models that are flexible enough that they don't make very stringent
         assumptions. One common assumption made by many models is that the
         density is <em>smooth</em> everywhere i.e. the gradient at any point
-        has some maximum magnitude.
-				<!-- TODO Add a plot here to illustrate this for a uniform and a
-				Gaussian -->
+        has some maximum magnitude. This is not always true (the uniform
+				distribution is again an example where this is not the case), but we
+				seem to believe that it is the case for many densities. 
+
+			</div>
+
+			<div class="col-fill">
+				<img class="image-centre"
+				src="../img/blog/density-estimation/uniform-gaussian.jpg"
+				>
 			</div>
 
       <div class="col-fill" id="big-text">

@@ -108,6 +108,13 @@ li a:hover {
     padding-right: 2%;
 }
 
+.image-centre {
+    width: 60%;
+    padding-left: 20%;
+    padding-right: 20%;
+
+}
+
 .col-fill {
     padding-top: 1%;
     padding-bottom: 1%;
