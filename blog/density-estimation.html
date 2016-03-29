@@ -127,10 +127,10 @@
         is chosen to model a probability density has its own <em>inductive
         bias</em>. The inductive bias of a model is the set of assumptions the
         model inherently makes, which make it hard for it to model data that
-        does not satisfy the assumptions it makes. For example, imagine trying
-        to model a uniform distribution with a Gaussian by fitting the mean
-        and variance. This would always be a bad fit. For one, the Gaussian has
-        an infinite support (the interval for which the distribution is
+        does not satisfy these assumptions. For example, imagine trying
+        to model a uniform distribution with a Gaussian. This would always
+				be a bad fit. For one, the Gaussian has
+        an infinite support (the interval in which the density is
         non-zero), whereas the uniform distribution has a finite support. Also,
         the Gaussian has a single mode and decays square-exponentially away
         from it, whereas the uniform distribution takes two distinct values:
@@ -144,7 +144,8 @@
         assumptions. One common assumption made by many models is that the
         density is <em>smooth</em> everywhere i.e. the gradient at any point
         has some maximum magnitude. This is not always true (the uniform
-				distribution is again an example where this is not the case), but we
+				distribution is again an example where this is not the case, as the
+				gradient at 0 and 1 does not even exist), but we
 				seem to believe that it is the case for many densities.
 
 			</div>
@@ -158,7 +159,10 @@
       <div class="col-fill" id="big-text">
         Another reason it is a difficult task is because it is required that the
         model gives a valid density i.e. it must integrate to one and it must
-        be non-negative everywhere.
+        be non-negative everywhere. These means that models like the Restricted
+				Boltzman Machine (RBM) and other undirected graphical models are not
+				easy to use because the <em>partition function</em> needs to be
+				calculated. In a lot of cases, this is just intractable. 
       </div>
 
       <!-- TODO Mention MoGs, NADE and your own research -->
@@ -166,6 +170,7 @@
 		</div>
 		<!-- TODO Mention how log likelihood is used to fit the distributions and
 		 how it related to the KL divergence -->
+		 <!-- TODO Mention what density estimation is useful for -->
 		<div id="footer">
 		</div>
 	</div>
