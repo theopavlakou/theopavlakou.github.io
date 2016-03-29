@@ -36,6 +36,8 @@ ul#vertical li {
   float: left;
   text-decoration: none;
   width: 100%;
+  padding: 0px 0px;
+
 }
 
 li a {
