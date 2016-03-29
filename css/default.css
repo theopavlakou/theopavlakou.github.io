@@ -58,6 +58,16 @@ li a:hover {
     color: #f2b632;
 }
 
+#side-note {
+  display: none;
+  padding: 1%;
+
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 2px;
+  border-color:  #b5b5b7;
+}
+
 #page-wrap {
      width: 60%;
      min-width: 400px;
