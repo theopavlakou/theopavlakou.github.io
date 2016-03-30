@@ -277,14 +277,61 @@
 				minimise some cost. A cost that usually comes to mind (both because it
 				makes sense and because it is quite nice to work with), is the KL
 				divergence (again, a post on this will come soon, hopefully). In this
-				case, KL\((p || q)\), where \(q\) is the density that our model gives
+				case, KL\((p || q_\theta)\), where \(qq_\theta\) is the density that
+				our model (parameterised by \(\theta\)) gives
 				and \(p\) is the actual density function of the distribution
-				that produced the data. 
+				that produced the data. So, how do we do this practically? Well, let's
+				take a look at this cost in more detail. We have
+
+				$$
+				\begin{align}
+				\text{KL}(p || q_\theta) &= \int p(x) \log \frac{p(x)}{q_\theta(x)} dx
+				\\
+				&= \int p(x) \log p(x) dx + \int p(x) \log \frac{1}{q_\theta(x)} dx
+				\\
+				&= -\int p(x) \log \frac{1}{p(x)} dx - \int p(x) \log {q_\theta(x)} dx
+				\\
+				&= -H(p(x)) - \mathbb{E}_p\left[\log {q_\theta(x)}\right].
+				\\
+				\end{align}
+				$$
+				Here, \(H(p(x))\) is the entropy of the true distribution and final term
+				is the expectation of the log likelihood of the model under taken under
+				the true data distribution. Notice that, the entropy of the true
+				distribution does not depend on the parameters of our model at all
+				(which makes sense, because it is a property of the true distribution).
+				This means that minimising the KL divergence with respect to the
+				parameters is equivalent to minimising the expected negative log
+				likelihood of the data under the model (or maximising the log
+				likelihood, if that's more your thing).
+			</div>
+
+			<div class="col-fill" id="big-text">
+				The next thing to note is that, we can't actually evaluate the
+				expectation (since that would require us knowing $p(x)$, which is
+				what we are trying to model, so you see the problem right?). Instead,
+				we make a Monte Carlo approximation to this expectation, as we have
+				samples from this distribution i.e.
+				$$
+				\mathbb{E}_p\left[\log {q_\theta(x)}\right] \approx
+				\frac{1}{N} \sum_{n=1}^N \log q_\theta(x^{(n)}).
+				$$
+				Therefore, to minimise the KL divergence (and thus fit the model), we
+				need to minimise the average log likelihood (or the expectation under
+				the empirical distribution) of the model with respect to the parameters.
+				This is a much easier problem, because we can use standard gradient
+				descent procedures (assuming we can get gradients from our model) and
+				minimise this loss. Therfore, we have that
+				$$
+				\arg\min_\theta \text{KL}(p || q_\theta) \approx
+				\arg\min_\theta \frac{1}{N} \sum_{n=1}^N \log q_\theta(x^{(n)}),
+				$$
+				so to fit a density estimation model to some data set, we just need to
+				maximise the likelihood that that data set would be seen under the
+				model.
 			</div>
 
 		</div>
-		<!-- TODO Mention how log likelihood is used to fit the distributions and
-		 how it related to the KL divergence -->
 		 <!-- TODO Mention what density estimation is useful for -->
 		<div id="footer">
 		</div>
