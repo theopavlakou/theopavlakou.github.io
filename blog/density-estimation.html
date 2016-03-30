@@ -114,7 +114,7 @@
 
       </div>
       <div class="col-fill" id="big-text">
-        <h3> Density Estimation</h3>
+				<h3> Density Estimation</h3>
         In unsupervised learning, we generally do not have a split in the data
         into some \((x^{(n)}, y^{(n)})\), so we care about modelling the data set
         as a whole. We look for interesting patterns in the data or seek to
@@ -126,7 +126,9 @@
       </div>
 
       <div class="col-fill" id="big-text">
-        This can be a really difficult task, especially when
+				<h4>So, that's pretty straight forward, right?</h4>
+
+        No, actually, this can be a really difficult task, especially when
         \(D\) is large, because of the <em>curse of dimensionality</em>. The
         curse of dimensionality basically states that as the dimensionality of
         the space increases, the amount of data needed to get a good idea of
@@ -228,7 +230,7 @@
 			</div>
 
       <div class="col-fill" id="big-text">
-        Furthermore, it is required that the
+        It is also required that the
         model gives a valid density i.e. it must integrate to one and it must
         be non-negative everywhere. This means that models like the Restricted
 				Boltzman Machine (RBM) and other undirected graphical models are not
@@ -237,6 +239,48 @@
       </div>
 
       <!-- TODO Mention MoGs, NADE and your own research -->
+
+			<div class="col-fill" id="big-text">
+				<h4>What's at our disposal?</h4>
+				Well there are a bunch of models out there that are used, with varying
+				success. Probably the most familiar (after a regular Gaussian)
+				is the Mixture of Gaussians (MoGs). This model is exactly what its name
+				suggests (trust me, in machine learning, that is not always the case).
+				It's pdf is parameterised as such \(\theta = \{\pi_k, \mu_k, \Sigma_k \
+				|\ \forall k \in [K]\}\). Here \(K\) is the number of
+				mixing components (i.e. the number of Gaussians),	\(\pi_k\) is the
+				probability of a data point coming from the \(k\)th Gaussian and
+				\(\mu_k, \ \Sigma_k\) are the associated mean vectors and covariance
+				matrices respectively. This model is simple enough, but it is also quite
+				powerful (for modelling continuous data) in many cases. It is usually
+				fit using the Expectation Maximisation (EM) algorithm (which I will
+				go through in another post hopefully).
+			</div>
+			<!-- TODO add link to supervisor -->
+			<!-- TODO add link to NADE -->
+			<div class="col-fill" id="big-text">
+				Other models include Mixture of Factor Analysers (MoFAs), Mixture of
+				Bernoullis (MoBs) which are for multivariate binary data and more recent
+				models like the <a href=#>Neural Autoregressive Distribution Estimator
+				(NADE)</a> and its variants (which my supervisor <a href=#>Iain Murray
+				</a> was involved in developing). There are actually plenty of models
+				out there, and the purpose of this post is not to list them all
+				(because that would be incredibly boring for me, and I want to keep this
+				infomative, yet fun for me as well). If you are interested in knowing
+				more about the models that are available, you can send me an email and
+				I'll send you some papers to read.
+			</div>
+
+			<div class="col-fill" id="big-text">
+				<h4>The cost function?</h4>
+				So, when we are fitting these models, what we actually want to do is to
+				minimise some cost. A cost that usually comes to mind (both because it
+				makes sense and because it is quite nice to work with), is the KL
+				divergence (again, a post on this will come soon, hopefully). In this
+				case, KL\((p || q)\), where \(q\) is the density that our model gives
+				and \(p\) is the actual density function of the distribution
+				that produced the data. 
+			</div>
 
 		</div>
 		<!-- TODO Mention how log likelihood is used to fit the distributions and
