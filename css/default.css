@@ -59,7 +59,7 @@ li a:hover {
 }
 
 #side-note {
-  display: block;
+  display: none;
   padding: 1%;
 
   border-radius: 7px;
@@ -67,8 +67,6 @@ li a:hover {
   border-width: 2px;
   border-color:  #b5b5b7;
 }
-
-
 
 #page-wrap {
      width: 60%;
@@ -96,8 +94,9 @@ li a:hover {
     text-decoration: none !important;
 }
 
-#button a {
+button {
   border-radius: 7px;
+  border: none;
   background-color:#252839;
   color: white;
   padding:5px;
@@ -105,9 +104,25 @@ li a:hover {
   text-align: center;
 }
 
-#button a:hover {
+button:hover {
+
   color: #f2b632;
+
 }
+
+/*
+#button a {
+  border-radius: 7px;
+  background-color:#252839;
+  color: white;
+  padding:5px;
+  width: 10%;
+  text-align: center;
+}*/
+
+/*#button a:hover {
+  color: #f2b632;
+}*/
 
 #footer {
     background-color: #677077;
