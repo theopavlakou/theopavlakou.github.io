@@ -41,12 +41,125 @@
 
       <div class="col-fill" id="big-text">
         <h2> Differential Entropy of a Multivariate Gaussian </h2>
-
+        This should be a short post (but I'm quite bad at estimating these
+        things, so it could be huge, who knows?). I just wanted to show the
+        derivation of the <em>differential entropy</em> of a Multivariate
+        Gaussian distribution. The reason for this is two-fold: first, it
+        comes in handy when I'm debugging density estimation models, because
+        I can see what they give as their average log likelihood and compare
+        it with it to see whether the model works, as explained in my <a href=
+        "density-estimation.html">previous post</a>. The second reason, is
+        that there are many (or at least one) linear algebra identities that
+        are used to make the derivation easier and they come up all over the
+        place in machine learning, so seeing an example of them in use is a
+        great way to become more familiar with them.
       </div>
 
       <div class="col-fill" id="big-text">
-        <h3> Other title </h3>
+        <h3> Differential Entropy? </h3>
+        So, first off, we need to define what the <em>differential</em> entropy
+        is.
+        The entropy of a distribution \(p(x)\) over a random variable
+        \(x\in \mathbb{X}\), where \(\mathbb{X}\) is a discrete space,
+        is basically defined as
+        $$
+        H(p) = \mathbb{E}_p\left[\log \frac{1}{p(x)}\right]
+        = \sum_{x} p(x)\log\frac{1}{p(x)}
+        $$
+        and it basically is the expected <em>surprise</em> that we get when we
+        see elements that has been sampled from the distribution. The
+        quantity \(-\log p(x)\) is defined as the information content of
+        the value \(x\), and this makes sense. Values that have high probability
+        are less informative than values that have low probability. For example,
+        suppose I tell you that tomorrow I will wake up in the morning, you
+        won't really be surprised because most people do that every day, so
+        with high probability I will also do that. However, suppose I then tell
+        you that after I wake up I will take a plane to Brazil, go to the Amazon
+        rainforest, search for a tribe that has never seen an outsider before
+        and live with them for a year... well, that's not that likely, so you
+        would be really surprised.
       </div>
+      <div class="col-fill" id="big-text">
+        If we use logarithms with base two and we assume that each value that
+        \(x\) takes is from an alphabet of some size i.e. each value is a
+        symbol, then the entropy corresponds to the smallest averge number of
+        bits per symbol that are required to represent a string of symbols from
+        the alphabet.
+
+        Anyway, there are lots of great resources
+        online and in books that you can read, so I won't go over the details of
+        that here.
+      </div>
+
+      <div class="col-fill" id="big-text">
+       So what is the differential entropy then? Well, if you have noticed,
+       above the entropy is basically a summation and each value that \(x\)
+       takes is a discrete value. In the differential entropy case, \(x\) can
+       take on continuous values and therefore we get an integral i.e.
+       $$
+       H(p) = \mathbb{E}_p\left[\log \frac{1}{p(x)}\right]
+       = \int p(x)\log\frac{1}{p(x)} dx
+       $$
+       The differential entropy cannot be interpreted as the number of bits per
+       symbol required to represent some string of symbols. The reason for this
+       is because for any continuous random variable the number of bits required
+       to represent any value is infinite. The reason for this is because the
+       real line (or any continuous space) has an uncountably infinite number
+       of values between any two numbers, and therefore, if there are an
+       uncountably infinite number of symbols, there is no mapping from the
+       natural numbers to them (the definition of uncountably infinite, if I
+       am not mistaken), therfore there is no mapping from any finite number of
+       bits to them.
+     </div>
+
+    <div class="col-fill" id="big-text">
+
+       Anyway, that was a bit too theoretical and out of my area of expertise
+       as well. The basic thing to remember is that, the differential entropy
+       is a measure of surprise as the entropy is. The higher the entropy of a
+       distribution, the more surprised we will be on average to see values
+       that are sampled from it.
+    </div>
+
+    <div class="col-fill" id="big-text">
+      <h3> The point of this post</h3>
+      So, now that some introductions have been made, let's get down to it. The
+      differential entropy of a Gaussian is
+      $$
+      \begin{align}
+      H(p) &= \int p(x) \log \frac{1}{p(x)} dx
+      \\
+      &= \int p(x) \left[\frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right]dx
+      \\
+      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2} \int p(x) (x-\mu)^T\Sigma^{-1}(x-\mu)dx
+      \\
+      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2} \int p(x)
+      \text{Tr}\left[(x-\mu)^T\Sigma^{-1}(x-\mu)\right]dx
+      \\
+      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2} \int p(x)
+      \text{Tr}\left[\Sigma^{-1}(x-\mu)(x-\mu)^T\right]dx
+      \\
+      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2}
+      \text{Tr}\left[\Sigma^{-1}\int p(x) (x-\mu)(x-\mu)^T dx\right]
+      \\
+      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2}
+      \text{Tr}\left[\Sigma^{-1}\Sigma\right]
+      \\
+      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2}
+      \text{Tr}\left[I\right]
+      \\
+      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{D}{2} 
+      \end{align}
+      $$
+    </div>
 
 		</div>
 		 <!-- TODO Mention what density estimation is useful for -->
