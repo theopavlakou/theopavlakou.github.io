@@ -59,7 +59,7 @@
         number of data points in our data set.
         One way to do supervised learning
         is to model \(p(y|x, \theta)\) with some parametric model that takes as
-        parameters \(\theta\)and then to fit the parameters of the model to
+        parameters \(\theta\) and then to fit the parameters of the model to
         minimise a cost function.
         Both Maximum likelihood (ML) and Maximum a posteriori (MAP)
         estimation can be formulated in this way.
@@ -98,9 +98,9 @@
         $$
 
         This is equivalent to maximising the log probability because log is a
-        strictly monotonically increasing function, so the parameters that make
-        the log of the likelihood maximise, are also the parameters that make
-        the likelihood maximise. So, by taking logs we get
+        strictly monotonically increasing function, so the parameters that
+				maximise the log of the likelihood, are also the parameters that
+				maximise the likelihood. So, by taking logs we get
 
         $$
         \begin{align}
@@ -116,7 +116,7 @@
       <div class="col-fill" id="big-text">
         <h3> Density Estimation</h3>
         In unsupervised learning, we generally do not have a split in the data
-        into some \(x^{(n)}, y^{(n)}\), so we care about modelling the data set
+        into some \((x^{(n)}, y^{(n)})\), so we care about modelling the data set
         as a whole. We look for interesting patterns in the data or seek to
         find models that explain the data well and are interpretable. Density
         estimation is an unsupervised learning task, in which the goal is to
@@ -133,7 +133,7 @@
         how the data is distributed in the space grows exponentially, which is
         really sad because, though we are in the <em>big data</em> era, for most
         data sets of interest (images, audio, etc.) the sizes of the datasets
-        are still too small to accurately get a tractable model for their
+        are still too small to accurately get a accurate models for their
         densities.
 			</div>
 
@@ -142,7 +142,9 @@
         is chosen to model a probability density has its own <em>inductive
         bias</em>. The inductive bias of a model is the set of assumptions the
         model inherently makes, which make it hard for it to model data that
-        does not satisfy these assumptions. For example, imagine trying
+        does not satisfy these assumptions.
+
+				For example, imagine trying
         to model a uniform distribution with a Gaussian. This would always
 				be a bad fit. For one, the Gaussian has
         an infinite support (the interval in which the density is
@@ -151,11 +153,11 @@
         from it, whereas the uniform distribution takes two distinct values:
 				0 and 1. The image below illustrates this. The Gaussian was fit by
 				minimising the KL divergence (I'll probably do another post on this at
-				some point).
+				some point) and by clicking on the button below you can see how this
+				is done.
 				<!-- TODO derive this -->
-				So, to model data for
-        which we do not know what assumptions are true for it, we need to have
-        models that are flexible enough that they don't make very stringent
+				So, to model arbitrary data, we need to have
+        models that are flexible enough so as to not make very stringent
         assumptions. One common assumption made by many models is that the
         density is <em>smooth</em> everywhere i.e. the gradient at any point
         has some maximum magnitude. This is not always true (the uniform
@@ -184,7 +186,7 @@
 				be the probability density function of the Gaussian. Then we have
 				$$
 				\begin{align}
-				KL(p || q) &= \int p(x) \log \frac{p(x)}{q(x)} dx
+				\text{KL}(p || q) &= \int p(x) \log \frac{p(x)}{q(x)} dx
 				\\
 				&= \int_{0}^{1} \log \frac{1}{q(x)} dx
 				\\
@@ -207,8 +209,8 @@
 				as such
 				$$
 				\begin{align}
-				\frac{\partial KL(p || q)}{\partial \mu} &= -1 + 2\mu_* = 0,\\
-				\frac{\partial KL(p || q)}{\partial \sigma^2} &=
+				\frac{\partial \text{KL}(p || q)}{\partial \mu} &= -1 + 2\mu_* = 0,\\
+				\frac{\partial \text{KL}(p || q)}{\partial \sigma^2} &=
 				\frac{1}{2\sigma^{2}_*} - \frac{1}{2(\sigma^{2}_*)^2}\frac{1}{12} = 0.
 				\end{align}
 				$$
