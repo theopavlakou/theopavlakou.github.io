@@ -8,6 +8,9 @@
   <script type="text/javascript" async
     src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>
+	<head>
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	</head>
 </head>
 
 <body>
@@ -162,6 +165,19 @@
 
 			</div>
 
+			<div class="col-fill">
+				<div id="button">
+				<button>
+					Click here to see proof
+				</button>
+				</div>
+			</div>
+
+			<script>
+			$( "button" ).click(function() {
+			  $( "#side-note" ).toggle( "slow");
+			});
+			</script>
 			<div class="col-fill" >
 				<div id="side-note">
 				To derive the best fit Gaussian to a Uniform distribution, we can
