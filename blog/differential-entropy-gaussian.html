@@ -214,6 +214,29 @@
 	      </div>
     	</div>
 
+			<div class="col-fill" id="big-text">
+	       As we can see, the entropy of a Gaussian distribution only depends on
+				 the covariance matrix, not on its mean. This is intuitive though. If
+				 I know the parameters of a Gaussian and I know the mean, I know that
+				 most samples will be concentrated around the mean, no matter where
+				 the mean is. The corariance matrix, however, will tell the maximum
+				 distance away
+				 from the mean that most samples will be and this is what determines how
+				 surprised I will be to see most samples. For instance, lets focus only
+				 on a univariate Gaussian i.e. the covariance is a scalar, the variance.
+				 In this case, if we take the limit of the variance going to infinity,
+				 what we are basically saying is that any number, or a better defined
+				 measure is, any \(\epsilon\) wide bucket is pretty much
+				 equally likely, so it would be hard for me to predict in which bucket
+				 the next sample would fall in. Therefore, we have a high entropy. On
+				 the other hand, taking the limit of the variance to zero, most samples
+				 will be essentially at the mean, therefore, our surprise is very low.
+				 If you were to ask me what the next sample would be from such a
+				 distribution, I would basically say the mean plus or minus some delta
+				 and I would always be correct. This would be an example of a low
+				 entropy distribution.
+	     </div>
+
 	    <div class="col-fill" id="big-text">
 	       And that's pretty much it. As promised, a short post on the differential
 	       entropy of a Multivariate Gaussian. As I mentioned in my
