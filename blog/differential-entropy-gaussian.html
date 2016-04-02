@@ -170,8 +170,6 @@
         \(B = \Sigma^{-1}(x-\mu)\) (for the proof of why this is true,
         click on the button below). Finally, \((c)\) is true because the
         expectation is a linear operator so we can push it into the trace.
-				<!-- TODO explain that the entropy only depends on the covariance
-				matrix -->
         </div>
 
       <div class="col-fill">
@@ -219,10 +217,15 @@
 				 the covariance matrix, not on its mean. This is intuitive though. If
 				 I know the parameters of a Gaussian and I know the mean, I know that
 				 most samples will be concentrated around the mean, no matter where
-				 the mean is. The corariance matrix, however, will tell the maximum
-				 distance away
-				 from the mean that most samples will be and this is what determines how
-				 surprised I will be to see most samples. For instance, lets focus only
+				 the mean is. The covariance matrix, however, gives us the ellipsoid
+				 around
+				 the
+				 mean that most samples will be in and this is what determines how
+				 surprised I will be to see most samples.
+			</div>
+
+			<div class="col-fill" id="big-text">
+				 For instance, lets focus only
 				 on a univariate Gaussian i.e. the covariance is a scalar, the variance.
 				 In this case, if we take the limit of the variance going to infinity,
 				 what we are basically saying is that any number, or a better defined

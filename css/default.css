@@ -3,10 +3,18 @@
     font-family: 'Lato', sans-serif;
 }
 
+/*
+Dark blue:  #252839
+Dark red:   #aa0000
+Dark grey:  #252839
+Light grey: #b5b5b7
+Yellow:     #f2b632
+
+*/
 #header {
     border-radius: 7px;
-    background-color:#252839;
-    color:white;
+    background-color: #252839;
+    color: white;
     text-align:center;
     padding:5px;
     padding-left: 20px;
@@ -37,7 +45,6 @@ ul#vertical li {
   text-decoration: none;
   width: 100%;
   padding: 0px 0px;
-
 }
 
 li a {
@@ -85,7 +92,7 @@ li a:hover {
 }
 
 #section a{
-    color: #64706c;
+    color: #f2b632;
     text-decoration: none !important;
 }
 
@@ -97,32 +104,15 @@ li a:hover {
 button {
   border-radius: 7px;
   border: none;
-  background-color:#252839;
+  background-color: #252839;
   color: white;
   padding:5px;
-  /*width: 10%;*/
   text-align: center;
 }
 
 button:hover {
-
   color: #f2b632;
-
 }
-
-/*
-#button a {
-  border-radius: 7px;
-  background-color:#252839;
-  color: white;
-  padding:5px;
-  width: 10%;
-  text-align: center;
-}*/
-
-/*#button a:hover {
-  color: #f2b632;
-}*/
 
 #footer {
     background-color: #677077;
