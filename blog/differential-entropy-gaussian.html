@@ -122,9 +122,10 @@
     </div>
 
     <div class="col-fill" id="big-text">
-      <h3> The point of this post</h3>
-      So, now that some introductions have been made, let's get down to it. The
-      differential entropy of a Gaussian is
+      <h3> Differential Entropy of a Gaussian
+        (kind of the point of this post...)</h3>
+      So, now that some introductions have been made, let's derive the
+      differential entropy of a Gaussian.
       $$
       \begin{align}
       H(p) &= \int p(x) \log \frac{1}{p(x)} dx
@@ -135,17 +136,17 @@
       &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
       + \frac{1}{2} \int p(x) (x-\mu)^T\Sigma^{-1}(x-\mu)dx
       \\
-      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2} \int p(x)
-      \text{Tr}\left[(x-\mu)^T\Sigma^{-1}(x-\mu)\right]dx
+      &\stackrel{(a)}{=}  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2} \mathbb{E}_p\left[
+      \text{Tr}\left[(x-\mu)^T\Sigma^{-1}(x-\mu)\right]\right]
       \\
-      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2} \int p(x)
-      \text{Tr}\left[\Sigma^{-1}(x-\mu)(x-\mu)^T\right]dx
+      &\stackrel{(b)}{=}  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      + \frac{1}{2} \mathbb{E}_p\left[
+      \text{Tr}\left[\Sigma^{-1}(x-\mu)(x-\mu)^T\right]\right]
       \\
-      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+      &\stackrel{(c)}{=} \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
       + \frac{1}{2}
-      \text{Tr}\left[\Sigma^{-1}\int p(x) (x-\mu)(x-\mu)^T dx\right]
+      \text{Tr}\left[\Sigma^{-1}\mathbb{E}_p\left[ (x-\mu)(x-\mu)^T \right]\right]
       \\
       &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
       + \frac{1}{2}
@@ -156,7 +157,9 @@
       \text{Tr}\left[I\right]
       \\
       &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{D}{2} 
+      + \frac{D}{2}
+      \\
+      &=  \frac{D}{2}(\log (2\pi) + 1) + \frac{1}{2}\log{|\Sigma|}
       \end{align}
       $$
     </div>
