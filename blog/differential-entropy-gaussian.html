@@ -79,6 +79,7 @@
         and live with them for a year... well, that's not that likely, so you
         would be really surprised.
       </div>
+
       <div class="col-fill" id="big-text">
         If we use logarithms with base two and we assume that each value that
         \(x\) takes is from an alphabet of some size i.e. each value is a
@@ -110,64 +111,126 @@
        natural numbers to them (the definition of uncountably infinite, if I
        am not mistaken), therfore there is no mapping from any finite number of
        bits to them.
-     </div>
+      </div>
 
-    <div class="col-fill" id="big-text">
+      <div class="col-fill" id="big-text">
 
        Anyway, that was a bit too theoretical and out of my area of expertise
        as well. The basic thing to remember is that, the differential entropy
        is a measure of surprise as the entropy is. The higher the entropy of a
        distribution, the more surprised we will be on average to see values
        that are sampled from it.
-    </div>
+      </div>
 
-    <div class="col-fill" id="big-text">
-      <h3> Differential Entropy of a Gaussian
-        (kind of the point of this post...)</h3>
-      So, now that some introductions have been made, let's derive the
-      differential entropy of a Gaussian.
-      $$
-      \begin{align}
-      H(p) &= \int p(x) \log \frac{1}{p(x)} dx
-      \\
-      &= \int p(x) \left[\frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right]dx
-      \\
-      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2} \int p(x) (x-\mu)^T\Sigma^{-1}(x-\mu)dx
-      \\
-      &\stackrel{(a)}{=}  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2} \mathbb{E}_p\left[
-      \text{Tr}\left[(x-\mu)^T\Sigma^{-1}(x-\mu)\right]\right]
-      \\
-      &\stackrel{(b)}{=}  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2} \mathbb{E}_p\left[
-      \text{Tr}\left[\Sigma^{-1}(x-\mu)(x-\mu)^T\right]\right]
-      \\
-      &\stackrel{(c)}{=} \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2}
-      \text{Tr}\left[\Sigma^{-1}\mathbb{E}_p\left[ (x-\mu)(x-\mu)^T \right]\right]
-      \\
-      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2}
-      \text{Tr}\left[\Sigma^{-1}\Sigma\right]
-      \\
-      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{1}{2}
-      \text{Tr}\left[I\right]
-      \\
-      &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
-      + \frac{D}{2}
-      \\
-      &=  \frac{D}{2}(\log (2\pi) + 1) + \frac{1}{2}\log{|\Sigma|}
-      \end{align}
-      $$
-    </div>
+      <div class="col-fill" id="big-text">
+        <h3> Differential Entropy of a Gaussian
+          (kind of the point of this post...)</h3>
+        So, now that some introductions have been made, let's derive the
+        differential entropy of a Gaussian.
+        $$
+        \begin{align}
+        H(p) &= \int p(x) \log \frac{1}{p(x)} dx
+        \\
+        &= \int p(x) \left[\frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right]dx
+        \\
+        &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{1}{2} \int p(x) (x-\mu)^T\Sigma^{-1}(x-\mu)dx
+        \\
+        &\stackrel{(a)}{=}  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{1}{2} \mathbb{E}_p\left[
+        \text{Tr}\left[(x-\mu)^T\Sigma^{-1}(x-\mu)\right]\right]
+        \\
+        &\stackrel{(b)}{=}  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{1}{2} \mathbb{E}_p\left[
+        \text{Tr}\left[\Sigma^{-1}(x-\mu)(x-\mu)^T\right]\right]
+        \\
+        &\stackrel{(c)}{=} \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{1}{2}
+        \text{Tr}\left[\Sigma^{-1}\mathbb{E}_p\left[ (x-\mu)(x-\mu)^T \right]\right]
+        \\
+        &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{1}{2}
+        \text{Tr}\left[\Sigma^{-1}\Sigma\right]
+        \\
+        &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{1}{2}
+        \text{Tr}\left[I\right]
+        \\
+        &=  \frac{D}{2}\log (2\pi) + \frac{1}{2}\log{|\Sigma|}
+        + \frac{D}{2}
+        \\
+        &=  \frac{D}{2}(\log (2\pi) + 1) + \frac{1}{2}\log{|\Sigma|}
+        \end{align}
+        $$
+        Where we have that \((a)\) is true because the trace (sum of the diagonal
+        terms) of a scalar is the scalar itself and \((x-\mu)^T
+        \Sigma^{-1}(x-\mu)\) is a scalar. We have that \((b)\) is true because
+        \(\text{Tr}(AB) = \text{Tr}(BA)\), where \(A = (x-\mu)^T\) and
+        \(B = \Sigma^{-1}(x-\mu)\) (for the proof of why this is true,
+        click on the button below). Finally, \((c)\) is true because the
+        expectation is a linear operator so we can push it into the trace.
+				<!-- TODO explain that the entropy only depends on the covariance
+				matrix -->
+        </div>
 
-		</div>
-		 <!-- TODO Mention what density estimation is useful for -->
+      <div class="col-fill">
+        <button id="big-text">
+          Derivation
+        </button>
+      </div>
+
+      <script>
+      $( "button" ).click(function() {
+        $( "#side-note" ).toggle( "slow");
+      });
+      </script>
+
+    	<div class="col-fill" >
+	      <div id="side-note">
+	      Here we will show that \(\text{Tr}(AB) = \text{Tr}(BA)\) is true (it is
+	      a standard linear algebra proof, but it is nice to have it here to keep
+	      this page pretty self-contained). So, we will first start off with the
+	      definition of the trace operator for a \(D\times D\) matrix \(AB\), where
+	      \(A\) has dimension \(D\times K\) and \(B\) has dimension \(K \times D\).
+	      $$
+	      \text{Tr}(AB) = \sum_{i=1}^D [AB]_{i i}.
+	      $$
+	      Now, what is \([AB]_{i i}\) though? Well, if we expand this we get
+	      $$
+	      \begin{align}
+	      \text{Tr}(AB) &= \sum_{i=1}^D \sum_{j=1}^K A_{ij} B_{ji}
+	      \\
+	      &= \sum_{j=1}^K \sum_{i=1}^D  B_{ji} A_{ij}
+	      \\
+	      &= \sum_{j=1}^K [ B A]_{jj}
+	      \\
+	      &= \text{Tr}(BA),
+	      \end{align}
+	      $$
+	      which concludes the proof. This can actually be extended to
+	      $\text{Tr}(ABC) = \text{Tr}(CAB)$ etc. and it is quite a useful identity
+	      in machine learning so getting used to using it can be important.
+	      </div>
+    	</div>
+
+	    <div class="col-fill" id="big-text">
+	       And that's pretty much it. As promised, a short post on the differential
+	       entropy of a Multivariate Gaussian. As I mentioned in my
+	       <a href="blog/density-estimation.html">previous post</a>, the
+	       differential entropy can be useful for debugging density estimation
+	       models because we know that the log likelihood of our model can never be
+	       greater than the negative (differential) entropy of the model, but if
+	       the model is good at modelling continuous data, it should be able to
+	       get very close to it.
+	     </div>
+
+     </div>
+
+
 		<div id="footer">
 		</div>
 	</div>
+
 </body>
 </html>
