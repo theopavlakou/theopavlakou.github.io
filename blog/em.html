@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Theo Pavlakou</title>
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Signika:400,600' rel='stylesheet' type='text/css'>
+	<link href="../css/default.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+	<head>
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	</head>
+</head>
+
+<body>
+	<script type="text/javascript">
+	<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+		//-->
+	</script>
+
+	<div id="page-wrap">
+		<div id="header">
+			<h1>Theo Pavlakou</h1>
+		</div>
+
+		<ul>
+			<li><a href="../index.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a class="active" href="../blog-posts.html">Blog</a></li>
+		</ul>
+
+		<div id="section">
+
+      <div class="col-fill" id="big-text">
+        <h2> The EM Algorithm </h2>
+        The EM Algorithm is used when we would like to do maximum likelihood
+        (or MAP) estimation but where our model has hidden variables i.e.
+        variables that we cannot observe but that we believe are involved in
+        the generation of the data. For instance, it may be the case that we
+        believe that there is a correlation between people having eczema and
+        asthma, but we may not believe that any of these two causes the other.
+        We may instead believe that they are both caused by the presence of
+        some allele in a persons DNA (by the way, I do not claim to know
+        anything about biology or genetics so take this with a grain of salt).
+        The presence of this could be the latent variable, but we may never see
+        this in most people.
+        In this case, we have the visible variables, lets denote them as \(x\),
+        and the hidden variables, denoted by \(z\). We would like to maximise
+        the marginal likelihood over the visible variables i.e. we want to
+        solve the following
+
+        $$
+        \theta^* = \arg \max_{\theta} \log p(x|\theta) = \arg \max_{\theta}
+        \log \sum_{z} p(x, z|\theta).
+        $$
+
+        Due to the presence of the summation in the log, this is actually a
+        very difficult problem to solve. We cannot solve for it directly.
+        Instead, the usual way to solve this is somthing called the
+        <em>EM algorithm</em> or the <em>Expectation Maximisation
+        algorithm</em>.
+
+      </div>
+
+      <div class="col-fill" id="big-text">
+        <h2> Derivation </h2>
+        The EM algorithm can be derived in the following way. We want to
+        maximise the log likelihood of the visible data i.e.
+
+        $$
+        l(\theta) = \log \sum_{z} p(x, z|\theta),
+        $$
+
+        for each datapoint \(x\) in the data set, so we do this very neat,
+        unintuitive trick. We introduce a distribution over the hidden
+        variables, \(q(z)\)
+
+        $$
+        \begin{align}
+        l(\theta) &= \log \left(\sum_{z} q(z) \frac{p(x, z|\theta)}{q(z)}\right)
+        \\
+        &\geq \sum_{z} q(z) \log\left(\frac{p(x, z|\theta)}{q(z)}\right).
+        \end{align}
+        $$
+
+        Now there are two ways to view this equation. Since this will turn out
+        to be an iterative algorithm, we will call the parameters at iteration
+        \(t\), \(\theta^t\). At iteration \(t\) we then have that
+
+        $$
+        \begin{align}
+        l(\theta^t) &\geq \sum_{z} q(z)
+        \log\left(\frac{p(x, z|\theta^t)}{q(z)}\right)
+        \\
+        &= \sum_{z} q(z) \log \frac{p(z|x, \theta^t)}{q(z)} + \log p(x|\theta^t)
+        \\
+        &= -\text{KL}\left(q(z)|| p(z|x, \theta^t) \right) + \log p(x|\theta^t).
+        \end{align}
+        $$
+
+        We know that the KL divergence is always non-negative and it is zero
+        when $q(z) = p(z|x, \theta^t)$. Therefore, we maximise this by setting
+        these as equal. When this is the case, the lower bound on the
+        log-likelihood of the visible data is tight i.e. there is equality.
+        We can also view this in another way as well. Let's rewrite the above
+        (after setting \(q(z) = p(z|x, \theta^t)\)) as
+
+        $$
+        \begin{align}
+        l(\theta^t) &= \sum_{z} p(z | x, \theta^t) \log \left(p(x, z|\theta^t) \right) + H(p(z | x, \theta^t) )
+        \\
+        &= \mathbb{E}_{p(z | x, \theta^t)} \left[ \log \left( p(x, z| \theta^t) \right) \right] + H( p(z | x, \theta^t) ).
+        \end{align}
+        $$
+
+        Now, if we allow the parameters of \(p(x, z | \theta^t)\) to be free,
+        but still keep \(q(z) = p(z | x, \theta^t)\), then we get the following
+
+        $$
+        \begin{align}
+        l(\theta) &\geq \sum_{z} p(z | x, \theta^t) \log \left(p(x, z|\theta \right) + H(p(z | x, \theta^t) )
+        \\
+        &= \mathbb{E}_{p(z | x, \theta^t)} \left[ \log \left( p(x, z| \theta) \right) \right] + H( p(z | x, \theta^t) ).
+        \end{align}
+        $$
+
+        We can then maximise the right hand side with respect to \(\theta\)
+        (remember, we fix \(\theta^t\)). To do this, we don't really need to
+        take the entropy (\(H(p(z | x, \theta^t))\)) into account, since it is
+        not a function of \(\theta\). Let us define an auxiliary function
+
+        $$
+        Q(\theta, \theta^t) = \mathbb{E}_{p(z | x, \theta^t)} \left[ \log p(x, z|\theta) \right].
+        $$
+
+        We then maximise this with respect to \(\theta\) i.e.
+
+        $$
+        \theta^{t+1} = \arg \max_{\theta} Q(\theta, \theta^t)
+        $$
+
+        then we repeat. So, basically, the EM algorithm iterates over two steps.
+        At iteration \(t\) we make the lower bound tight, which we do by setting
+        \(q(z) = p(z|x, \theta^t)\). This is needed to take the
+        <em>expected</em> log likelihood over the visible data, which is why it
+        is called the Expectation step. We then *maximise* this with respect to
+        \(\theta\), which is why this is called the Maximisation step. We can
+        prove that this always is guaranteed to increase the log likelihood of
+        the visible data (until it converges). This is because
+
+        $$
+        l(\theta^t) = Q(\theta, \theta^t) + H(p(z | x, \theta^t))
+        \leq Q(\theta^{t+1}, \theta^t) + H(p(z | x, \theta^t)) =
+        -\text{KL}\left(p(z|x, \theta^t)|| p(z|x, \theta^{t+1}) \right)
+         + \log p(x|\theta^{t+1}) \leq l(\theta^{t+1})
+        $$
+
+        which means that \(l(\theta^t)\leq l(\theta^{t+1})\), for all \(t\).
+        This means that at each iteration of the EM algorithm, the parameters
+        become better explanations of the data (if we are doing maximum
+        likelihood) or at least do not become worse.
+      </div>
+
+      <div class="col-fill" id="big-text">
+        <h2> The catch </h2>
+        The EM algorithm only guarantees that we will reach a <em>local</em>
+        optimium. This means that there may have been better parameters to
+        increase the likelihood but because it guarantees that it will never
+        decrease, it will never reach them (because to get there it would have
+        to temporarily decrease). For this reason, it is sometimes useful to
+        do the algorithm a couple of times starting from different initial
+        parameters and then choose the one that maximises the likelihood
+        (or use cross validation).
+
+        However, it works well in practice and it is used extensively in
+        machine learning and statistics.
+      </div>
+      
+			 <div class="col-fill" id="date">
+ 				Last editted 13/04/2016
+ 			</div>
+
+			 <div class="col-fill" id="big-text">
+				 <div id="disqus_thread"></div>
+					<script>
+					var disqus_config = function () {
+					this.page.url = 'http://theopavlakou.github.io/blog/em.html'; // Replace PAGE_URL with your page's canonical URL variable
+					this.page.identifier = 'em-algorithm'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+					};
+					(function() { // DON'T EDIT BELOW THIS LINE
+					var d = document, s = d.createElement('script');
+
+					s.src = '//theopavlakou.disqus.com/embed.js';
+
+					s.setAttribute('data-timestamp', +new Date());
+					(d.head || d.body).appendChild(s);
+					})();
+					</script>
+					<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+		 	</div>
+	 </div>
+
+
+
+		<div id="footer">
+		</div>
+	</div>
+	<script id="dsq-count-scr" src="//theopavlakou.disqus.com/count.js" async></script>
+
+</body>
+</html>
