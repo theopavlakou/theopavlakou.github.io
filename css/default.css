@@ -186,6 +186,17 @@ button:hover {
     font-size: 24px;
 }
 
+.col-fill#date  {
+    padding-top: 0%;
+    padding-bottom: 0%;
+    overflow: hidden;
+    text-align: right;
+    color: #b5b5b7;
+    font-size: 18px;
+
+}
+
+
 h4 {
     padding-bottom: 5px;
     margin: 0px;
