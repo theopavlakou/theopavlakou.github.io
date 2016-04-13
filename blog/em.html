@@ -174,10 +174,17 @@
         the visible data (until it converges). This is because
 
         $$
-        l(\theta^t) = Q(\theta, \theta^t) + H(p(z | x, \theta^t))
-        \leq Q(\theta^{t+1}, \theta^t) + H(p(z | x, \theta^t)) =
+        \begin{align}
+        l(\theta^t) &= Q(\theta, \theta^t) + H(p(z | x, \theta^t))
+        \\
+        &\leq Q(\theta^{t+1}, \theta^t) + H(p(z | x, \theta^t))
+        \\
+        &=
         -\text{KL}\left(p(z|x, \theta^t)|| p(z|x, \theta^{t+1}) \right)
-         + \log p(x|\theta^{t+1}) \leq l(\theta^{t+1})
+         + \log p(x|\theta^{t+1})
+         \\
+         &\leq l(\theta^{t+1})
+         \end{align}
         $$
 
         which means that \(l(\theta^t)\leq l(\theta^{t+1})\), for all \(t\).
