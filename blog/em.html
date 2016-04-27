@@ -193,7 +193,19 @@
         likelihood) or at least do not become worse.
       </div>
 
-			<!-- TODO Explain how this is done with a dataset, not just a single x -->
+			<div class="col-fill" id="big-text">
+				Of course, if we have a data set with \(N\) data points
+				\(\mathcal{D} = \{(x^{(n)})\}_{n=1}^N\), then we have that
+				$$
+				l(\theta) = \sum_{n=1} \log \sum_{z} p(x^{(n)}, z^{(n)})
+				$$
+				and
+				$$
+				Q(\theta, \theta^t) = \sum_n \mathbb{E}_{p(z^{(n)} | x^{(n)}, \theta^t)}
+				 \left[ \log p(x^{(n)}, z^{(n)}|\theta) \right],
+				$$
+				but everything else stays the same.
+			</div>
 
       <div class="col-fill" id="big-text">
         <h2> The catch </h2>
@@ -281,6 +293,13 @@
 				dimensions are still highly dependent, but this is just an illustration
 				which is easy to visualise, which is why I chose it.
 			</div>
+
+			<div class="col-fill" id="big-text">
+        <h2> The update equations </h2>
+				So, now that we know what a MoB is, lets derive the equations for the
+				EM algorithm for it. 
+
+      </div>
 
 			 <div class="col-fill" id="date">
  				Last editted 27/04/2016
