@@ -208,8 +208,80 @@
         machine learning and statistics.
       </div>
 
+			<div class="col-fill" id="big-text">
+        <h2> Example: Mixture of Bernoulli </h2>
+				A lot of textbooks stop at this point it seems or give the EM algorithm
+				for a Mixture of Gaussians, so I have decided to show a concrete example
+				on a Mixture of Bernoulli (MoB) distribution.
+
+      </div>
+
+			<div class="col-fill" id="big-text">
+      	A MoB distribution is a model for multivariate binary data which takes
+				the form
+
+				$$
+				p(x, z) = p(x | z) p(z) = \prod_{k=1}^K
+				(p(z = k) p(x | z = k))^{\mathbb{I}(z = k)},
+				$$
+
+				where \(z \in \{1, 2, \dots, K\}\), is the latent variable i.e. we
+				don't see it, and \(x \in \{0, 1\}^D\), which is visible. The
+				generative process can be thought of first picking a value for \(z\)
+				from a a categorical distribution and then generating an \(x\) from
+				a multivariate Bernoulli distribution, whose parameters depend on the
+				value of \(z\). Each multivariate Bernoulli distribution,
+				\(p(x | z = k)\), makes an independence assumption about the features
+				in \(x\) i.e. given the value of \(z\), we assume all the features of
+				\(x\) are independent, as such
+
+				$$
+				p(x|z=k) = \prod_{d=1}^D p(x_d = 1|z=k)^{x_d}
+				(1 - p(x_d = 1|z=k))^{1-x_d}.
+				$$
+      </div>
+
+			<div class="col-fill" id="big-text">
+      	Now, this may seem like a very strong assumption, but it still can model
+				some things. For example, suppose that we want to model a multivariate
+				binary variable, whose dimension is \(D = L^2 = 21^2 = 441\) and
+				represents an \(L\times L\) image of either a square or a triangle,
+				whose length, \(l\), is
+				equal to 15 and it is randomly placed within this grid. Some sample
+				images can be seen below.
+      </div>
+
+			<div class="col-fill">
+				<img class="image"
+				src="../img/blog/em/squares-and-triangles.jpg"
+				>
+			</div>
+
+			<div class="col-fill" id="big-text">
+				The pixels that are coloured dark purple are equal to 1 and the white
+				background pixels are equal to zero. The middle pixel is coloured in a
+				light purple. We can think of the generative process as first choosing
+				whether a triangle or a square will be generated, and then choosing
+				where to place the shape. The choice between the triangle and the square
+				can be encoded by \(z\) and then once we choos the shape, we can
+				generate it by sampling from the associated Bernoullis.
+			</div>
+
+			<div class="col-fill" id="big-text">
+				Let \(z=1\) denote a square and \(z=2\) denote a triangle. If we pick a
+				square, we can see that the middle pixel is always going to be one
+				(since the square has length 15 and the canvas has length only 21,
+				which means that the 10th pixel will always be covered by the square).
+				This means that \(p(x = 1| z = 1) = 1\). However, when \(z=2\) we can
+				see from som of the examples below that this is not the case, and we can
+				also see that for any pixel in the top right corner \(p(x =1 | z=2)
+				= 0\) (the pixels are always zero). Of course, it is clear that given \(z\) the
+				dimensions are still highly dependent, but this is just an illustration
+				which is easy to visualise, which is why I chose it.
+			</div>
+
 			 <div class="col-fill" id="date">
- 				Last editted 13/04/2016
+ 				Last editted 27/04/2016
  			</div>
 
 			 <div class="col-fill" id="big-text">
