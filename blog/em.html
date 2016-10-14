@@ -193,6 +193,20 @@
         likelihood) or at least do not become worse.
       </div>
 
+			<div class="col-fill" id="big-text">
+				Of course, if we have a data set with \(N\) data points
+				\(\mathcal{D} = \{(x^{(n)})\}_{n=1}^N\), then we have that
+				$$
+				l(\theta) = \sum_{n=1} \log \sum_{z} p(x^{(n)}, z^{(n)})
+				$$
+				and
+				$$
+				Q(\theta, \theta^t) = \sum_n \mathbb{E}_{p(z^{(n)} | x^{(n)}, \theta^t)}
+				 \left[ \log p(x^{(n)}, z^{(n)}|\theta) \right],
+				$$
+				but everything else stays the same.
+			</div>
+
       <div class="col-fill" id="big-text">
         <h2> The catch </h2>
         The EM algorithm only guarantees that we will reach a <em>local</em>
@@ -208,8 +222,215 @@
         machine learning and statistics.
       </div>
 
+			<div class="col-fill" id="big-text">
+        <h2> Example: Mixture of Bernoulli </h2>
+				A lot of textbooks stop at this point it seems or give the EM algorithm
+				for a Mixture of Gaussians, so I have decided to show a concrete example
+				on a Mixture of Bernoulli (MoB) distribution.
+
+      </div>
+
+			<div class="col-fill" id="big-text">
+      	A MoB distribution is a model for multivariate binary data which takes
+				the form
+
+				$$
+				p(x, z) = p(x | z) p(z) = \prod_{k=1}^K
+				(p(z = k) p(x | z = k))^{\mathbb{I}(z = k)},
+				$$
+
+				where \(z \in \{1, 2, \dots, K\}\), is the latent variable i.e. we
+				don't see it, and \(x \in \{0, 1\}^D\), which is visible. The
+				generative process can be thought of first picking a value for \(z\)
+				from a a categorical distribution and then generating an \(x\) from
+				a multivariate Bernoulli distribution, whose parameters depend on the
+				value of \(z\). Each multivariate Bernoulli distribution,
+				\(p(x | z = k)\), makes an independence assumption about the features
+				in \(x\) i.e. given the value of \(z\), we assume all the features of
+				\(x\) are independent, as such
+
+				$$
+				p(x|z=k) = \prod_{d=1}^D p(x_d = 1|z=k)^{x_d}
+				(1 - p(x_d = 1|z=k))^{1-x_d}.
+				$$
+      </div>
+
+			<div class="col-fill" id="big-text">
+      	Now, this may seem like a very strong assumption, but it still can model
+				some things. For example, suppose that we want to model a multivariate
+				binary variable, whose dimension is \(D = L^2 = 21^2 = 441\) and
+				represents an \(L\times L\) image of either a square or a triangle,
+				whose length, \(l\), is
+				equal to 15 and it is randomly placed within this grid. Some sample
+				images can be seen below.
+      </div>
+
+			<div class="col-fill">
+				<img class="image"
+				src="../img/blog/em/squares-and-triangles.jpg"
+				>
+			</div>
+
+			<div class="col-fill" id="big-text">
+				The pixels that are coloured dark purple are equal to 1 and the white
+				background pixels are equal to zero. The middle pixel is coloured in a
+				light purple. We can think of the generative process as first choosing
+				whether a triangle or a square will be generated, and then choosing
+				where to place the shape. The choice between the triangle and the square
+				can be encoded by \(z\) and then once we choos the shape, we can
+				generate it by sampling from the associated Bernoullis.
+			</div>
+
+			<div class="col-fill" id="big-text">
+				Let \(z=1\) denote a square and \(z=2\) denote a triangle. If we pick a
+				square, we can see that the middle pixel is always going to be one
+				(since the square has length 15 and the canvas has length only 21,
+				which means that the 10th pixel will always be covered by the square).
+				This means that \(p(x = 1| z = 1) = 1\). However, when \(z=2\) we can
+				see from som of the examples below that this is not the case, and we can
+				also see that for any pixel in the top right corner \(p(x =1 | z=2)
+				= 0\) (the pixels are always zero). Of course, it is clear that given \(z\) the
+				dimensions are still highly dependent, but this is just an illustration
+				which is easy to visualise, which is why I chose it.
+			</div>
+
+			<div class="col-fill" id="big-text">
+        <h2> The update equations </h2>
+				So, now that we know what a MoB is, let's derive the equations for the
+				EM algorithm for it. First of all, let us define the following for
+				simplicity
+
+				$$
+				\begin{align}
+				\pi_k &= p(z = k),
+				\\
+				\mu_{k, d} &= p(x_d = 1 | z = k ).
+				\end{align}
+				$$
+
+				We know that the parameters to be estimated are
+				\(\theta = \{\pi_k, \mu_{k, d}\}_{k=1, \cdots, K, d = 1, \cdots, D}\).
+				So, starting with the E step, we have
+
+				$$
+				\begin{align}
+				p(z^{(n)} = k | x^{(n)}, \theta^t) &=
+				\frac{p(z^{(n)} = k, x^{(n)}| \theta^t)}
+				{\sum_j p(z^{(n)} = j, x^{(n)}| \theta^t)}
+				\\
+				&= \frac{\pi_k^t p(x^{(n)} | z^{(n)} = k, \theta^t)}
+				{\sum_j \pi_j^t p(x^{(n)} | z^{(n)} = j, \theta^t)}
+				\\
+				&= q^t(z^{(n)}=k).
+				\end{align}
+				$$
+				Note, everything in this equation is calculable when we have the
+				parameters. Another thing is that, we have a different posterior
+				probability for the hidden variable for each visible data point. This
+				means that to calculate this quantity for all data points we basically
+				need to do \(\mathcal{O}(NK)\) operations, since we need to do this
+				for every data point (\(N\)) and for as many components as there are
+				data points (\(K\)). And that is all the calculation that needs to be
+				done for the E step.
+      </div>
+
+			<div class="col-fill" id="big-text">
+				Now, let's derive the updates in the M step. Once we plug
+				\(q^t(z) =p(z | x, \theta^t)\)
+				into \(Q(\theta, \theta^t)\), we get
+				$$
+				\begin{align}
+				Q(\theta, \theta^t)
+				&= \sum_n \sum_k q^t(z^{(n)} = k)
+				\left( \log \pi_k + \sum_d x_d^{(n)}\log \mu_{k, d}
+				+  (1-x_d^{(n)})\log (1-\mu_{k, d}) \right)
+				\end{align}
+				$$
+				Taking the derivative with respect to \(\mu_{k', d'}\) and setting
+				it to zero, we get
+				$$
+				\begin{align}
+				\frac{\partial Q(\theta, \theta^t)}{\partial \mu_{k', d'}}
+				&= \sum_n q^t(z^{(n)} = k')
+				\left( \frac{x_{d'}^{(n)} }{\mu_{k', d'}}
+				-  \frac{(1-x_{d'}^{(n)})}{ (1-\mu_{k', d'})} \right) = 0.
+				\end{align}
+				$$
+				When we then solve for \(\mu_{k', d'}\), we get
+				$$
+				\mu_{k', d'} = \frac{\sum_n q^t(z^{(n)} = k') x_{d'}^{(n)}}
+				{\sum_n q^t(z^{(n)} = k')}.
+				$$
+				As we can see, we have to do this for all dimensions \(D\) and for all
+				components \(K\) and for each of these we are summing over \(N\)
+				data points, therefore, for each of these updates the complexity is
+				\(\mathcal{O}(NKD)\).
+				So, that is the update for the means of each of the Bernoulli variables.
+				Now, let's do the same for the priors on the components. In this case,
+				to get something sensible, we need to add a Lagrange multiplier i.e.
+				we need to maximise the following equation
+				$$
+				\begin{align}
+				\tilde{Q}(\theta, \theta^t)
+				&= \sum_n \sum_k q^t(z^{(n)} = k)
+				\left( \log \pi_k + \sum_d x_d^{(n)}\log \mu_{k, d}
+				+  (1-x_d^{(n)})\log (1-\mu_{k, d}) \right)
+				+ \lambda \left( \sum_k \pi_k - 1\right).
+				\end{align}
+				$$
+				Once we take the derivative with respect to \(\pi_{k'}\) and set it to
+				zero, we get
+				$$
+				\begin{align}
+				\frac{\partial \tilde{Q}(\theta, \theta^t)}{\partial\pi_{k'}}
+				&= \sum_n \sum_k q^t(z^{(n)} = k') \log \pi_{k'} + \lambda = 0.
+				\end{align}
+				$$
+				Taking the derivative with respect to \(\lambda\) and setting it to
+				zero, we get
+				$$
+				\sum_k \pi_k = 1,
+				$$
+				and once we put these two equations together, we get
+				$$
+				\pi_{k'} = \frac{1}{N} \sum_n q^t(z^{(n)} = k').
+				$$
+				In this case, we don't actually need to do any more work than is done
+				in calculating the means, because the term \(\sum_n q^t(z^{(n)} = k')\)
+				is used as the denominator in the calculation of the means of the
+				Bernoullis, so it can be stored. And that is it! We have the update
+				equations for a MoB.
+			</div>
+
+			<div class="col-fill" id="big-text">
+				It is worth looking at these equations more. Firstly, let us look at
+				\(\sum_n q^t(z^{(n)} = k') \). This basically is the <em>effective</em>
+				number of data points that component \(k'\) accounts for and it can
+				be useful to think of it as \(N_{k'}\). So, how can we interpret the
+				update of the prior, \(\pi_{k'}\)? Well, it basically says that it is
+				the effective proportion of data points that the component accounts for
+				of the total population of data points. This makes sense, right?
+				Likewise, the updates of the mean of component \(k'\) for dimension
+				\(d'\) is a weighted sum of the data points, where each is weighted by
+				how likely it was to have been generated by component \(k'\), divided
+				by that same number, \(N_{k'}\). In other words, if many data points
+				have a value of 1 for their \(d'th\) dimension, but none of these are
+				very likely to have been generated by component \(k'\), we can see that
+				\(\mu_{k', d'}\) would be close to zero. Also, note that the maximum
+				value it can take is one, which it gets if all the data points are
+				equal to one.
+			</div>
+
+			<div class="col-fill" id="big-text">
+        <h2> Conclusion </h2>
+				So that's it! Here we have seen how the EM Algorithm works and how to
+				derive the necessary equations to implement it yourself. We also
+				derived an example for a Mixture of Bernoullis and showed that the
+				update equations do what we expect them to do (in hindsight, at least).
+			</div>
+
 			 <div class="col-fill" id="date">
- 				Last editted 13/04/2016
+ 				Last editted 28/04/2016
  			</div>
 
 			 <div class="col-fill" id="big-text">
