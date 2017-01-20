@@ -57,39 +57,50 @@
         <h2>Forward Difference</h2>
 
 
-        The first time we were presented with the definition of the derivative of $f$, we were shown the following equation:
+        The first time we were presented with the definition of the derivative
+        of \(f\), we were shown the following equation:
 
         $$
         \frac{df(x)}{dx} = \lim_{\epsilon \rightarrow 0} \frac{f(x+\epsilon) -f(x)}{\epsilon}.
         $$
 
-        Given this, it seems quite natural that if you are asked to give an estimate to the derivative, you would probably do the following:
+        Given this, it seems quite natural that if you are asked to give an
+        estimate to the derivative, you would probably do the following:
 
         $$
         g_f(x) = \frac{f(x+\epsilon)-f(x)}{\epsilon},
         $$
 
-        and you would try to set $\epsilon$ to be *really* small. This is called the **foward difference estimate** for obvious reasons.
+        and you would try to set $\epsilon$ to be <em>really</em> small. This is
+         called the <b>foward difference estimate</b> for obvious reasons.
 
-        Let's analyse what the error on this estimate is by doing a Taylor series expansion about $x$. This gives us
+        Let's analyse what the error on this estimate is by doing a Taylor
+        series expansion about \(x\). This gives us
 
         $$
         f(x+\epsilon) = f(x) + \epsilon f'(x) + \mathcal{O}(\epsilon^2),
         $$
 
-        where the last term shows what the error in the estimate of $f(x+\epsilon)$ would be, given only the first two terms. If we re-arrange this equation, we get
+        where the last term shows what the error in the estimate of
+        \(f(x+\epsilon)\) would be, given only the first two terms. If we
+        re-arrange this equation, we get
 
         $$
         f(x+\epsilon) - f(x) = \epsilon f'(x) + \mathcal{O}(\epsilon^2),
         $$
 
-        and then, if we divide by $\epsilon$ and move the error term to the other side, we get
+        and then, if we divide by \(\epsilon\) and move the error term to the
+        other side, we get
 
         $$
         f'(x) = \frac{f(x+\epsilon) - f(x)}{\epsilon} - \mathcal{O}(\epsilon).
         $$
 
-        As we can see here, the derivative at $x$ is given by the finite difference estimate *plus an error that scales with $\epsilon$*. Now, what this means is that, if we half $\epsilon$, we can only hope for the error on our estimate to be roughly halved also. Kind of sucks...
+        As we can see here, the derivative at \(x\) is given by the finite
+        difference estimate <em>plus an error that scales with \(\epsilon\)
+        </em>. Now, what this means is that, if we half \(\epsilon\), we can
+        only hope for the error on our estimate to be roughly halved also.
+        Kind of sucks...
 
       </div>
 
@@ -97,7 +108,9 @@
       <div class="col-fill" id="big-text">
         <h2>Central Difference</h2>
 
-        Do not despare! There is a better solution. We can instead use the **central difference estimate**. What is that you say? Well, the definition for the gradient is just as true if we write it as:
+        Do not despare! There is a better solution. We can instead use the
+        <em>central difference estimate</em>. What is that you say? Well, the
+        definition for the gradient is just as true if we write it as:
 
         $$
         \frac{df(x)}{dx} = \lim_{\epsilon \rightarrow 0} \frac{f(x+\frac{\epsilon}{2}) -f(x-\frac{\epsilon}{2})}{\epsilon}.
@@ -109,7 +122,8 @@
         g_c(x) = \frac{f(x+\frac{\epsilon}{2}) -f(x-\frac{\epsilon}{2})}{\epsilon}.
         $$
 
-        Now let's do the Taylor series expansion on each of the teams in the numerator. We end up with
+        Now let's do the Taylor series expansion on each of the teams in the
+        numerator. We end up with
 
         $$
         f(x+\frac{\epsilon}{2}) = f(x) + \frac{\epsilon}{2} f'(x) + \frac{\epsilon^2}{8} f''(x) + \mathcal{O}(\epsilon^3),
@@ -121,7 +135,9 @@
         f(x-\frac{\epsilon}{2}) = f(x) - \frac{\epsilon}{2} f'(x) + \frac{\epsilon^2}{8} f''(x) - \mathcal{O}(\epsilon^3).
         $$
 
-        The only thing we did differently in this case is that we expanded up to second order derivatives. Now, let's subtract the first equation from the second equation.
+        The only thing we did differently in this case is that we expanded up
+        to second order derivatives. Now, let's subtract the first equation
+        from the second equation.
 
         $$
         f(x+\frac{\epsilon}{2}) -  f(x-\frac{\epsilon}{2}) =  \epsilon f'(x) + \mathcal{O}(\epsilon^3),
@@ -132,17 +148,24 @@
         f'(x) = \frac{f(x+\frac{\epsilon}{2}) -  f(x-\frac{\epsilon}{2})}{\epsilon} - \mathcal{O}(\epsilon^2).
         $$
 
-        Boom! Just like that our error went from linear to quadratic in $\epsilon$. What does that mean? Well, if we now half $\epsilon$, we can expect the error to go down by a quarter!
+        Boom! Just like that our error went from linear to quadratic in
+        \(\epsilon\). What does that mean? Well, if we now half \(\epsilon\),
+        we can expect the error to go down by a quarter!
       </div>
 
       <div class="col-fill" id="big-text">
         <h2>Yeah, but that's just theory...</h2>
-        If you don't believe me, let's look at the example below. We will create a function and will compare the *average absolute errors* between the actual derivatives and the derivatives given by both the forward and central difference methods. That is to say, we will evaluate
+        If you don't believe me, let's look at the example below. We will create
+        a function and will compare the <em>average absolute errors</em> between
+        the actual derivatives and the derivatives given by both the forward and
+        central difference methods. That is to say, we will evaluate
 
         $$
         E_a = \frac{1}{\lvert \mathcal{X}\rvert}\sum_{x\in \mathcal{X}} \lvert f'(x) - g_a(x)\rvert,
         $$
-        where $a$ can be either $f$ for the forward estimate or $c$ for the central estimate and $\mathcal{X}$ is a set of points at which we will evaluate.
+        where $a$ can be either \(f\) for the forward estimate or $c$ for the
+        central estimate and \(\mathcal{X}\) is a set of points at which we
+        will evaluate.
 
         The function is given by
 
@@ -172,9 +195,17 @@
 
 			<div class="col-fill" id="big-text">
         <h2> Conclusion </h2>
-        As we can see in this case, the central difference method blows the forward difference method out of the water, especially when $\epsilon$ becomes very small. We can see that, as we foresaw, if we multiply $\epsilon$ by a factor of $10^{-1}$ for the forward difference case, the error only decreases by $10^{-1}$. However, when we do the same for the central difference method, the error shrinks by a factor of $10^{-2}$!
+        As we can see in this case, the central difference method blows the
+        forward difference method out of the water, especially when \(\epsilon\)
+        becomes very small. We can see that, as we foresaw, if we multiply
+        \(\epsilon\) by a factor of \(10^{-1}\) for the forward difference case,
+        the error only decreases by \(10^{-1}\). However, when we do the same
+        for the central difference method, the error shrinks by a factor of
+        \(10^{-2}\)!
 
-        This really makes a difference when working on a computer with finite precision, because $\epsilon$ can only be so small before you experience numerical issues.
+        This really makes a difference when working on a computer with
+        finite precision, because \(\epsilon\) can only be so small before you
+        experience numerical issues.
 			</div>
 
 			 <div class="col-fill" id="date">
