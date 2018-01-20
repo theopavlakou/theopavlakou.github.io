@@ -9,8 +9,8 @@ Dark red:   #aa0000
 Dark grey:  #252839
 Light grey: #b5b5b7
 Yellow:     #f2b632
-
 */
+
 #header {
     border-radius: 7px;
     background-color: #252839;
@@ -138,6 +138,7 @@ button:hover {
     width: 95%;
     padding-left: 2%;
     padding-right: 2%;
+    border-radius: 7px;
 }
 
 .image-centre {
